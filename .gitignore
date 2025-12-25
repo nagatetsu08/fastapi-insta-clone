@@ -1,0 +1,16 @@
+# 仮想環境
+.venv/
+venv/
+ENV/
+
+# Python キャッシュ
+__pycache__/
+*.py[cod]
+
+# データベースファイル
+*.db
+*.sqlite3
+
+# OSの設定ファイル
+.DS_Store
+Thumbs.db
