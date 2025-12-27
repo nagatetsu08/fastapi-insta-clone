@@ -6,16 +6,18 @@ from repositories.post import create_post_db, get_all_posts
 import random
 import string
 import shutil
+from schema.user import UserAuth
+from auth.oauth2 import get_current_user
 
 router = APIRouter(
     prefix='/post',
-    tags=['posts']
+    tags=['posts'],
 )
 
 image_url_types = ['absolute', 'relative']
 
 @router.post('', response_model=PostDisplay, status_code=status.HTTP_201_CREATED)
-def create_post(request: CreatePost, db: Session = Depends(get_db)):
+def create_post(request: CreatePost, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
 
     if not request.image_url_type in image_url_types:
         raise HTTPException(
@@ -34,7 +36,7 @@ def all_posts(db: Session = Depends(get_db)):
 # Fileによって、multipart/form-dataでデータを受け取ることを示す。
 # ...はpythonの「必須入力」を表す（requiredと同じ）
 @router.post('/image')
-def upload_image(image: UploadFile = File(...)):
+def upload_image(image: UploadFile = File(...), current_user: UserAuth = Depends(get_current_user)):
     
     # 保存するイメージにつけるランダムな名前（Uploadファイルの名前が被らないようにするため）
     # uuidでもいいけど、こんなやり方もあるんだ的な意味で以下のやり方を試す。

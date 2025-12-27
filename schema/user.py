@@ -14,3 +14,8 @@ class UserDisplay(BaseModel):
 
 class CreateUser(UserBase):
     password: str = Field(..., min_length=8)
+
+class UserAuth(BaseModel):
+    id: int
+    username: str
+    email: str
