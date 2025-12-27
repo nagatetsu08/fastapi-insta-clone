@@ -1,8 +1,9 @@
 from db.database import Base
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 # userモデル定義（テーブル構造）
-class DBUser(Base):
+class DbUser(Base):
     # テーブル名
     __tablename__ = "users"
 
@@ -11,3 +12,4 @@ class DBUser(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
+    posts = relationship('DbPost', back_populates='user')
