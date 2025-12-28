@@ -12,3 +12,4 @@ class DbPost(Base):
     timestamp = Column(DATETIME)
     creator_id = Column(Integer, ForeignKey('users.id')) #ForeignKeyはテーブル名で書かないとダメ。（AI曰くモデルクラス名では書けないらしい）
     user = relationship('DbUser', back_populates='posts')
+    comments = relationship('DbComment', back_populates='post')

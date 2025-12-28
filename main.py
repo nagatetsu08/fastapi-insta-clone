@@ -1,15 +1,19 @@
 from fastapi import FastAPI
 from db.database import engine, Base
 from models.user import DbUser
+from models.post import DbPost
+from models.comment import DbComment
 from router.user import router as user_router
 from router.post import router as post_router
 from router.auth import router as auth_router
+from router.comment import router as comment_router
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 app.include_router(user_router)
 app.include_router(post_router)
 app.include_router(auth_router)
+app.include_router(comment_router)
 
 # DB migration(uvicornを起動した状態で保存すると必要ならばmigrationが勝手に動く)
 Base.metadata.create_all(bind=engine)
