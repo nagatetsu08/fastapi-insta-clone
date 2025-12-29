@@ -12,11 +12,10 @@ router = APIRouter(
 )
 
 
-
 @router.get('/all/{post_id}', response_model=list[CommentDisplay], status_code=status.HTTP_201_CREATED)
 def comments(post_id: int, db: Session = Depends(get_db)):
     return get_comments_by_post_id(db, post_id)
 
-@router.post('')
+@router.post('', response_model=CommentDisplay)
 def create(request: CreateComment, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
     return create_comment_db(db, request)

@@ -8,12 +8,27 @@ from router.post import router as post_router
 from router.auth import router as auth_router
 from router.comment import router as comment_router
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 app.include_router(user_router)
 app.include_router(post_router)
 app.include_router(auth_router)
 app.include_router(comment_router)
+
+origins = [
+    # どのロケーションからこのサーバへのアクセスを許可するか。（許可するオリジンリスト）
+    'http://localhost:3000'
+    # "https://your-production-domain.com", # 本番環境のドメイン
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,           # 許可するオリジンのリスト
+    allow_credentials=True,          # Cookieなどの認証情報を許可するか
+    allow_methods=["*"],             # 許可するHTTPメソッド（GET, POSTなど。 "*"は全て）
+    allow_headers=["*"],             # 許可するHTTPヘッダー（"*"は全て）
+)
 
 # DB migration(uvicornを起動した状態で保存すると必要ならばmigrationが勝手に動く)
 Base.metadata.create_all(bind=engine)

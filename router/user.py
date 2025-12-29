@@ -9,6 +9,9 @@ router = APIRouter(
     tags=['user']
 )
 
+# repository側で戻り値の型を指定しているが、ルーティングメソッド側でも必ずresponse_modelを定義すること。
+# エラーになるわけではないが、どのような値を返すのかをちゃんと定義してやるのが礼儀。
+
 @router.post('', response_model=UserDisplay, status_code=status.HTTP_201_CREATED)
 def create_user(request: CreateUser, db: Session = Depends(get_db)):
 
